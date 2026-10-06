@@ -2,6 +2,8 @@
 
 A tiny local macOS alarm clock — same-day one-shot alarms, classic digital beep, gradual volume ramp (~30s), remembered volume. No App Store account, no login, no network.
 
+**One use case:** never miss a work meeting again when you’re deep in the zone — set the alarm for 5 minutes before your next scheduled meeting and keep coding until it fires.
+
 ![WakeAlarm UI](screenshot.png)
 
 ## Features
