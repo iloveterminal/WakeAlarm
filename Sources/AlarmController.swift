@@ -203,22 +203,25 @@ final class AlarmController: ObservableObject {
         sleepAssertionID = 0
     }
 
+    /// Top of the next hour (e.g. 6:41 → 7:00). If that would be tomorrow, fall back to 9:00 today.
     private static func defaultAlarmDate() -> Date {
         let calendar = Calendar.current
-        let raw = Date().addingTimeInterval(30 * 60)
-        var comps = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: raw)
-        comps.second = 0
-        let today = calendar.startOfDay(for: Date())
-        if let candidate = calendar.date(from: comps),
-           calendar.isDate(candidate, inSameDayAs: today) {
-            return candidate
+        let now = Date()
+        if let plusOneHour = calendar.date(byAdding: .hour, value: 1, to: now) {
+            var comps = calendar.dateComponents([.year, .month, .day, .hour], from: plusOneHour)
+            comps.minute = 0
+            comps.second = 0
+            if let candidate = calendar.date(from: comps),
+               calendar.isDate(candidate, inSameDayAs: now) {
+                return candidate
+            }
         }
         return calendar.date(
             bySettingHour: 9,
             minute: 0,
             second: 0,
-            of: Date()
-        ) ?? Date()
+            of: now
+        ) ?? now
     }
 
     static func formatTimeOnly(_ date: Date) -> String {

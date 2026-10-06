@@ -67,6 +67,10 @@ struct ContentView: View {
 
                 // Fixed-size action button — same footprint for Set / Cancel / Stop.
                 Button {
+                    // Resign the hour/minute fields first so any in-progress typed
+                    // value is committed before we read alarmDate (clicking AM/PM
+                    // already did this; Set Alarm must too).
+                    NSApp.keyWindow?.makeFirstResponder(nil)
                     switch controller.state {
                     case .idle:
                         controller.setAlarm()
@@ -242,6 +246,19 @@ struct BigTimePicker: View {
                     let cleaned = sanitize(newValue)
                     if cleaned != newValue {
                         text.wrappedValue = cleaned
+                        return
+                    }
+                    // Apply valid typed values immediately so Set Alarm / canSet
+                    // don't keep the previous minute/hour if focus never left.
+                    switch field {
+                    case .hour:
+                        if let value = Int(cleaned), (1...12).contains(value) {
+                            applyHour12(value)
+                        }
+                    case .minute:
+                        if let value = Int(cleaned), (0...59).contains(value) {
+                            applyMinute(value)
+                        }
                     }
                 }
                 .onChange(of: focusedField) { newValue in

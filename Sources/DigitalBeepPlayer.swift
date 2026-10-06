@@ -105,9 +105,7 @@ final class DigitalBeepPlayer {
     }
 
     func stop() {
-        if isPlaying {
-            engine.stop()
-        }
+        engine.mainMixerNode.outputVolume = 0
         if let node = sourceNode {
             engine.disconnectNodeOutput(node)
             engine.detach(node)
@@ -115,6 +113,9 @@ final class DigitalBeepPlayer {
         sourceNode = nil
         startedAt = nil
         isPlaying = false
+        if engine.isRunning {
+            engine.stop()
+        }
     }
 
     var currentlyPlaying: Bool { isPlaying }

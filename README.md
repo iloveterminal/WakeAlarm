@@ -7,12 +7,13 @@ A tiny local macOS alarm clock — same-day one-shot alarms, classic digital bee
 ## Features
 
 - Large digital clock (7-segment style) plus a simple alarm picker (hour / minute / AM·PM)
+- Default alarm time is the top of the next hour (e.g. 6:41 → 7:00)
 - Same-calendar-day alarms only (no “tomorrow”)
 - Classic paired digital beep with a ~30s volume ramp
 - Beep auto-stops after 15 minutes; green UI + Dock bounce continue until you stop
 - Volume slider remembered across launches
 - While armed, asks macOS not to idle-sleep
-- Closing the app cancels any armed or ringing alarm
+- Closing the window quits the app and cancels any armed or ringing alarm
 
 ## Requirements
 
@@ -51,6 +52,8 @@ Drag `build/WakeAlarm.app` into `/Applications` if you want it in Launchpad / a 
 3. Click **Set Alarm** and leave the app running.
 4. When it fires: Dock icon bounces, window turns green, beep ramps up — click **Stop Alarm**.
 5. After 15 minutes the beep stops on its own; green UI + Dock bounce continue until you stop.
+
+Closing the window quits the app and stops any armed or ringing alarm.
 
 ## Notes
 
